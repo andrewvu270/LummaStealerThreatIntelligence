@@ -1,225 +1,214 @@
 {
-  "name": "Lumma Stealer (LummaC2) — ATT&CK Navigator Layer",
-  "versions": {
-    "attack": "14",
-    "navigator": "4.9.5",
-    "layer": "4.5"
-  },
-  "domain": "enterprise-attack",
-  "description": "MITRE ATT&CK mapping for Lumma Stealer (LummaC2) MaaS infostealer. Sources: CISA AA25-141B, Sophos, Netskope, Cybereason, ESET, CrowdStrike.",
-  "filters": {
-    "platforms": ["Windows"]
-  },
-  "sorting": 0,
-  "layout": {
-    "layout": "side",
-    "aggregateFunction": "average",
-    "showID": true,
-    "showName": true,
-    "showAggregateScores": false,
-    "countUnscored": false
-  },
-  "hideDisabled": false,
-  "techniques": [
-    {
-      "techniqueID": "T1566.001",
-      "tactic": "initial-access",
-      "score": 100,
-      "color": "#e63946",
-      "comment": "Spearphishing attachments used to deliver Lumma payloads. Malicious ZIP/RAR files containing MSI loaders. Ref: CrowdStrike (2024), CISA AA25-141B.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1566.002",
-      "tactic": "initial-access",
-      "score": 90,
-      "color": "#e63946",
-      "comment": "Spearphishing hyperlinks redirect victims to malvertising pages and fake CAPTCHA sites. Ref: CISA AA25-141B.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1204.002",
-      "tactic": "execution",
-      "score": 100,
-      "color": "#f4a261",
-      "comment": "ClickFix social engineering: fake CAPTCHA instructs victim to open Win+R, paste clipboard-injected PowerShell command. Victim executes the payload themselves. Ref: Netskope Threat Labs (Jan 2025), Sophos (2025).",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1059.001",
-      "tactic": "execution",
-      "score": 100,
-      "color": "#f4a261",
-      "comment": "Base64-encoded PowerShell one-liners used throughout infection chain. PowerShell fetches and executes staged payloads using System.Net.WebClient and Invoke-Expression (iex). Ref: Netskope, Qualys.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1218.005",
-      "tactic": "defense-evasion",
-      "score": 100,
-      "color": "#8b5cf6",
-      "comment": "mshta.exe (signed Windows binary) used to download and execute remote HTA files containing obfuscated VBScript/JavaScript. Bypasses application controls. Ref: Cybereason, Picus Security (2025).",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1562.001",
-      "tactic": "defense-evasion",
-      "score": 100,
-      "color": "#8b5cf6",
-      "comment": "AMSI bypass: patches clr.dll in memory to force AmsiScanBuffer to return AMSI_RESULT_CLEAN. Open-source bypass implementation incorporated. Ref: Netskope Threat Labs (Jan 2025).",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1497.001",
-      "tactic": "defense-evasion",
-      "score": 80,
-      "color": "#8b5cf6",
-      "comment": "Sandbox/VM evasion: checks for AV process names ('wrsa', 'opssvc'), language settings, hardware fingerprint. Halts execution in sandbox environments. Ref: Picus Security, CISA AA25-141B.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1140",
-      "tactic": "defense-evasion",
-      "score": 90,
-      "color": "#8b5cf6",
-      "comment": "C2 domain list hardcoded and encrypted in binary; decrypted at runtime. Payload sections RC4-encrypted (key: 656505). Multiple obfuscation layers in PowerShell stages. Ref: CISA AA25-141B.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    },
-    {
-      "techniqueID": "T1547.001",
-      "tactic": "persistence",
-      "score": 80,
-      "color": "#3b82f6",
-      "comment": "Registry Run keys written to HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run to maintain execution across reboots. Ref: AttackIQ, Cybereason.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1055",
-      "tactic": "privilege-escalation",
-      "score": 90,
-      "color": "#ef4444",
-      "comment": "Payload injected into RegSvcs.exe (legitimate signed Windows process) using memory allocation (VirtualAlloc) and shellcode writing. Disguises malicious activity under trusted process. Ref: Twilight Cyber, AttackIQ.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    },
-    {
-      "techniqueID": "T1539",
-      "tactic": "credential-access",
-      "score": 100,
-      "color": "#f59e0b",
-      "comment": "Session cookie exfiltration from Chromium/Firefox browsers. Stolen cookies bypass MFA and remain valid after password resets. Primary identity theft vector. Ref: CISA AA25-141B, Huntress.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    },
-    {
-      "techniqueID": "T1555.003",
-      "tactic": "credential-access",
-      "score": 100,
-      "color": "#f59e0b",
-      "comment": "Credentials from browser password stores targeted across Chromium and Firefox-based browsers. Username/password pairs, autofill data, credit card numbers. Ref: CISA AA25-141B, AttackIQ.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1082",
-      "tactic": "discovery",
-      "score": 70,
-      "color": "#10b981",
-      "comment": "System information discovery at startup: OS version, architecture, language, CPU, RAM. Used to profile targets and filter out sandboxes/unwanted regions. Ref: CISA AA25-141B, AttackIQ.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    },
-    {
-      "techniqueID": "T1005",
-      "tactic": "collection",
-      "score": 90,
-      "color": "#0ea5e9",
-      "comment": "File grabber functionality driven by C2 opcodes. Configurable file extensions and paths. Browser data collected for all Chromium/Firefox profiles. Ref: CISA AA25-141B (Opcode 0,1 analysis).",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    },
-    {
-      "techniqueID": "T1071.001",
-      "tactic": "command-and-control",
-      "score": 100,
-      "color": "#ec4899",
-      "comment": "C2 communication via HTTP POST requests. User-agent 'TeslaBrowser/5.5'. Payload RC4-encrypted, LZNT1-compressed. Domains rotate across .shop/.top/.xyz/.store TLDs. Ref: CISA AA25-141B, ConnectWise CRU.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": true
-    },
-    {
-      "techniqueID": "T1105",
-      "tactic": "command-and-control",
-      "score": 80,
-      "color": "#ec4899",
-      "comment": "Ingress tool transfer: C2 Opcode 3 downloads additional files (payloads, modules) from attacker-specified URLs. GitHub abused for initial payload staging. Ref: CISA AA25-141B, Trend Micro (Jan 2025).",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    },
-    {
-      "techniqueID": "T1041",
-      "tactic": "exfiltration",
-      "score": 100,
-      "color": "#64748b",
-      "comment": "All stolen data exfiltrated over the established C2 channel (HTTP POST). Non-resident: without C2, no files written to disk. Ref: CISA AA25-141B.",
-      "enabled": true,
-      "metadata": [],
-      "links": [],
-      "showSubtechniques": false
-    }
-  ],
-  "gradient": {
-    "colors": ["#ffffff", "#e63946"],
-    "minValue": 0,
-    "maxValue": 100
-  },
-  "legendItems": [],
-  "metadata": [],
-  "links": [],
-  "showTacticRowBackground": true,
-  "tacticRowBackground": "#1d3557",
-  "selectTechniquesAcrossTactics": true,
-  "selectSubtechniquesWithParent": false,
-  "selectVisibleTechniques": false
+	"name": "Lumma Stealer (LummaC2) — ATT&CK Navigator Layer",
+	"versions": {
+		"attack": "18",
+		"navigator": "5.3.0",
+		"layer": "4.5"
+	},
+	"domain": "enterprise-attack",
+	"description": "MITRE ATT&CK mapping for Lumma Stealer (LummaC2) MaaS infostealer. Sources: CISA AA25-141B, Sophos, Netskope, Cybereason, ESET, CrowdStrike.",
+	"filters": {
+		"platforms": [
+			"Windows"
+		]
+	},
+	"sorting": 0,
+	"layout": {
+		"layout": "side",
+		"aggregateFunction": "average",
+		"showID": true,
+		"showName": true,
+		"showAggregateScores": false,
+		"countUnscored": false,
+		"expandedSubtechniques": "none"
+	},
+	"hideDisabled": false,
+	"techniques": [
+		{
+			"techniqueID": "T1566.001",
+			"tactic": "initial-access",
+			"score": 100,
+			"comment": "Spearphishing attachments used to deliver Lumma payloads. Malicious ZIP/RAR files containing MSI loaders. Ref: CrowdStrike (2024), CISA AA25-141B.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1566.002",
+			"tactic": "initial-access",
+			"score": 90,
+			"comment": "Spearphishing hyperlinks redirect victims to malvertising pages and fake CAPTCHA sites. Ref: CISA AA25-141B.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1204.002",
+			"tactic": "execution",
+			"score": 100,
+			"comment": "ClickFix social engineering: fake CAPTCHA instructs victim to open Win+R, paste clipboard-injected PowerShell command. Victim executes the payload themselves. Ref: Netskope Threat Labs (Jan 2025), Sophos (2025).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1059.001",
+			"tactic": "execution",
+			"score": 100,
+			"comment": "Base64-encoded PowerShell one-liners used throughout infection chain. PowerShell fetches and executes staged payloads using System.Net.WebClient and Invoke-Expression (iex). Ref: Netskope, Qualys.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1218.005",
+			"tactic": "defense-evasion",
+			"score": 100,
+			"comment": "mshta.exe (signed Windows binary) used to download and execute remote HTA files containing obfuscated VBScript/JavaScript. Bypasses application controls. Ref: Cybereason, Picus Security (2025).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1562.001",
+			"tactic": "defense-evasion",
+			"score": 100,
+			"comment": "AMSI bypass: patches clr.dll in memory to force AmsiScanBuffer to return AMSI_RESULT_CLEAN. Open-source bypass implementation incorporated. Ref: Netskope Threat Labs (Jan 2025).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1497.001",
+			"tactic": "defense-evasion",
+			"score": 80,
+			"comment": "Sandbox/VM evasion: checks for AV process names ('wrsa', 'opssvc'), language settings, hardware fingerprint. Halts execution in sandbox environments. Ref: Picus Security, CISA AA25-141B.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1140",
+			"tactic": "defense-evasion",
+			"score": 90,
+			"comment": "C2 domain list hardcoded and encrypted in binary; decrypted at runtime. Payload sections RC4-encrypted (key: 656505). Multiple obfuscation layers in PowerShell stages. Ref: CISA AA25-141B.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1547.001",
+			"tactic": "persistence",
+			"score": 80,
+			"comment": "Registry Run keys written to HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run to maintain execution across reboots. Ref: AttackIQ, Cybereason.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1055",
+			"tactic": "privilege-escalation",
+			"score": 90,
+			"comment": "Payload injected into RegSvcs.exe (legitimate signed Windows process) using memory allocation (VirtualAlloc) and shellcode writing. Disguises malicious activity under trusted process. Ref: Twilight Cyber, AttackIQ.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1539",
+			"tactic": "credential-access",
+			"score": 100,
+			"comment": "Session cookie exfiltration from Chromium/Firefox browsers. Stolen cookies bypass MFA and remain valid after password resets. Primary identity theft vector. Ref: CISA AA25-141B, Huntress.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1555.003",
+			"tactic": "credential-access",
+			"score": 100,
+			"comment": "Credentials from browser password stores targeted across Chromium and Firefox-based browsers. Username/password pairs, autofill data, credit card numbers. Ref: CISA AA25-141B, AttackIQ.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1082",
+			"tactic": "discovery",
+			"score": 70,
+			"comment": "System information discovery at startup: OS version, architecture, language, CPU, RAM. Used to profile targets and filter out sandboxes/unwanted regions. Ref: CISA AA25-141B, AttackIQ.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1005",
+			"tactic": "collection",
+			"score": 90,
+			"comment": "File grabber functionality driven by C2 opcodes. Configurable file extensions and paths. Browser data collected for all Chromium/Firefox profiles. Ref: CISA AA25-141B (Opcode 0,1 analysis).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1071.001",
+			"tactic": "command-and-control",
+			"score": 100,
+			"comment": "C2 communication via HTTP POST requests. User-agent 'TeslaBrowser/5.5'. Payload RC4-encrypted, LZNT1-compressed. Domains rotate across .shop/.top/.xyz/.store TLDs. Ref: CISA AA25-141B, ConnectWise CRU.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1105",
+			"tactic": "command-and-control",
+			"score": 80,
+			"comment": "Ingress tool transfer: C2 Opcode 3 downloads additional files (payloads, modules) from attacker-specified URLs. GitHub abused for initial payload staging. Ref: CISA AA25-141B, Trend Micro (Jan 2025).",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		},
+		{
+			"techniqueID": "T1041",
+			"tactic": "exfiltration",
+			"score": 100,
+			"comment": "All stolen data exfiltrated over the established C2 channel (HTTP POST). Non-resident: without C2, no files written to disk. Ref: CISA AA25-141B.",
+			"enabled": true,
+			"metadata": [],
+			"links": [],
+			"showSubtechniques": false
+		}
+	],
+	"gradient": {
+		"colors": [
+			"#ffffffff",
+			"#e63946ff"
+		],
+		"minValue": 0,
+		"maxValue": 100
+	},
+	"legendItems": [],
+	"metadata": [],
+	"links": [],
+	"showTacticRowBackground": true,
+	"tacticRowBackground": "#1d3557",
+	"selectTechniquesAcrossTactics": false,
+	"selectSubtechniquesWithParent": false,
+	"selectVisibleTechniques": false
 }
