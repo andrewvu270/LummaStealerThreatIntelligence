@@ -1,0 +1,238 @@
+{
+  "type": "bundle",
+  "id": "bundle--a1b2c3d4-0001-4eee-aaaa-lummastealer25",
+  "spec_version": "2.1",
+  "objects": [
+
+    {
+      "type": "malware",
+      "spec_version": "2.1",
+      "id": "malware--lumma-0001-4eee-aaaa-lummac2v2025",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Lumma Stealer",
+      "description": "Lumma Stealer (also known as LummaC2) is a Malware-as-a-Service information stealer first observed in August 2022. Developed by threat actor 'Shamel', it targets Windows systems (7-11) and steals browser credentials, session cookies, cryptocurrency wallets, and 2FA extension data. Delivered via ClickFix fake CAPTCHA, cracked software, and phishing. Active globally as of 2025.",
+      "malware_types": ["infostealer"],
+      "is_family": false,
+      "aliases": ["LummaC2", "LummaC", "Lumma"],
+      "kill_chain_phases": [
+        { "kill_chain_name": "mitre-attack", "phase_name": "initial-access" },
+        { "kill_chain_name": "mitre-attack", "phase_name": "execution" },
+        { "kill_chain_name": "mitre-attack", "phase_name": "defense-evasion" },
+        { "kill_chain_name": "mitre-attack", "phase_name": "credential-access" },
+        { "kill_chain_name": "mitre-attack", "phase_name": "collection" },
+        { "kill_chain_name": "mitre-attack", "phase_name": "exfiltration" }
+      ],
+      "first_seen": "2022-08-01T00:00:00.000Z",
+      "last_seen": "2025-05-22T00:00:00.000Z",
+      "operating_system_refs": [],
+      "external_references": [
+        { "source_name": "CISA", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141b", "description": "CISA Advisory AA25-141B" },
+        { "source_name": "MITRE ATT&CK", "url": "https://attack.mitre.org/software/S1213/", "external_id": "S1213" }
+      ]
+    },
+
+    {
+      "type": "threat-actor",
+      "spec_version": "2.1",
+      "id": "threat-actor--shamel-0001-lumma-dev-2022",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Shamel",
+      "description": "Threat actor operating under aliases 'Shamel' and 'Lumma'. Developer and operator of the Lumma Stealer MaaS platform. Active on Russian-speaking cybercrime forums since 2022. Financially motivated.",
+      "aliases": ["Lumma", "Shamel"],
+      "threat_actor_types": ["criminal"],
+      "sophistication": "expert",
+      "primary_motivation": "financial-gain",
+      "external_references": [
+        { "source_name": "ConnectWise CRU", "description": "ConnectWise Monthly Threat Brief, January 2025" }
+      ]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--net-001-teslabrowser-ua",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Lumma C2 User-Agent: TeslaBrowser/5.5",
+      "description": "HTTP POST requests using User-Agent 'TeslaBrowser/5.5' are characteristic of Lumma Stealer C2 communications.",
+      "indicator_types": ["malicious-activity", "network-traffic"],
+      "pattern": "[network-traffic:extensions.'http-request-ext'.request_header.'User-Agent' = 'TeslaBrowser/5.5']",
+      "pattern_type": "stix",
+      "valid_from": "2022-08-01T00:00:00.000Z",
+      "external_references": [
+        { "source_name": "ConnectWise CRU", "description": "ConnectWise Threat Brief Jan 2025" },
+        { "source_name": "CISA AA25-141B", "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-141b" }
+      ]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--hash-001-crowdstrike-2024",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Lumma Stealer SHA-256 — CrowdStrike Campaign (2024-07-19)",
+      "description": "Lumma Stealer sample RC4-encrypted with key 656505, LZNT1-compressed. Observed in CrowdStrike-themed phishing campaign following July 2024 sensor content issue.",
+      "indicator_types": ["malicious-activity"],
+      "pattern": "[file:hashes.'SHA-256' = 'd669078a7cdcf71fb3f2c077d43f7f9c9fdbdb9af6f4d454d23a718c6286302a']",
+      "pattern_type": "stix",
+      "valid_from": "2024-07-19T00:00:00.000Z",
+      "external_references": [
+        { "source_name": "CrowdStrike", "url": "https://www.crowdstrike.com/en-us/blog/lumma-stealer-with-cypherit-phishing-lure/", "description": "CrowdStrike Lumma+CypherIt campaign analysis" }
+      ]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--hash-002-netskope-2025",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Lumma Stealer SHA-256 — Netskope NSIS Variant (Jan 2025)",
+      "description": "NSIS installer variant of Lumma Stealer using AutoIt scripting. Detected via ML-powered sandbox by Netskope AI Labs.",
+      "indicator_types": ["malicious-activity"],
+      "pattern": "[file:hashes.'SHA-256' = 'ff7a1388fa59a9e1b43c5c88a1ee30e4abcec21a39882812a045aa9d9b865170']",
+      "pattern_type": "stix",
+      "valid_from": "2025-01-01T00:00:00.000Z",
+      "external_references": [
+        { "source_name": "Netskope", "url": "https://www.netskope.com/blog/beyond-signatures-detecting-lumma-stealer-with-an-ml-powered-sandbox" }
+      ]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-001-annwt-xyz",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "C2 Domain: annwt[.]xyz",
+      "description": "Lumma Stealer C2 domain observed by Netskope Threat Labs (January 2025).",
+      "indicator_types": ["malicious-activity", "network-traffic"],
+      "pattern": "[domain-name:value = 'annwt.xyz']",
+      "pattern_type": "stix",
+      "valid_from": "2025-01-01T00:00:00.000Z",
+      "external_references": [{ "source_name": "Netskope Threat Labs", "url": "https://www.netskope.com/blog/beyond-signatures-detecting-lumma-stealer-with-an-ml-powered-sandbox" }]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-002-ungryo-shop",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "C2 Domain: ungryo[.]shop",
+      "description": "Lumma Stealer C2 domain. Follows characteristic .shop TLD pattern used by Lumma C2 infrastructure.",
+      "indicator_types": ["malicious-activity", "network-traffic"],
+      "pattern": "[domain-name:value = 'ungryo.shop']",
+      "pattern_type": "stix",
+      "valid_from": "2025-01-01T00:00:00.000Z",
+      "external_references": [{ "source_name": "Netskope Threat Labs" }]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-003-sorrij-top",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "C2 Domain: sorrij[.]top",
+      "description": "Lumma Stealer C2 domain. .top TLD pattern.",
+      "indicator_types": ["malicious-activity", "network-traffic"],
+      "pattern": "[domain-name:value = 'sorrij.top']",
+      "pattern_type": "stix",
+      "valid_from": "2025-01-01T00:00:00.000Z",
+      "external_references": [{ "source_name": "Netskope Threat Labs" }]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--domain-004-iiaiyitre-pa",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "C2 Domain: iiaiyitre[.]pa",
+      "description": "Lumma Stealer C2 server observed by CrowdStrike during July 2024 CrowdStrike-themed phishing campaign.",
+      "indicator_types": ["malicious-activity", "network-traffic"],
+      "pattern": "[domain-name:value = 'iiaiyitre.pa']",
+      "pattern_type": "stix",
+      "valid_from": "2024-07-19T00:00:00.000Z",
+      "external_references": [{ "source_name": "CrowdStrike", "url": "https://www.crowdstrike.com/en-us/blog/lumma-stealer-with-cypherit-phishing-lure/" }]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--registry-001-run-key",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Registry Run Key Persistence",
+      "description": "Lumma Stealer creates persistence via HKCU Run registry key. Modification of this key by non-administrative processes is anomalous.",
+      "indicator_types": ["malicious-activity"],
+      "pattern": "[windows-registry-key:key = 'HKEY_CURRENT_USER\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run']",
+      "pattern_type": "stix",
+      "valid_from": "2022-08-01T00:00:00.000Z",
+      "external_references": [{ "source_name": "AttackIQ", "url": "https://www.attackiq.com/2024/10/15/emulating-lumma-stealer/" }]
+    },
+
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--process-001-regsvcs",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "name": "Process Injection Target: RegSvcs.exe",
+      "description": "Lumma Stealer injects its payload into RegSvcs.exe (a legitimate signed Windows binary) to disguise malicious activity.",
+      "indicator_types": ["malicious-activity"],
+      "pattern": "[process:name = 'RegSvcs.exe' AND process:is_hidden = true]",
+      "pattern_type": "stix",
+      "valid_from": "2024-01-01T00:00:00.000Z",
+      "external_references": [{ "source_name": "Twilight Cyber", "url": "https://twilightcyber.com/analyzing-latest-version-lumma-stealer/" }]
+    },
+
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--malware-actor-0001",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "relationship_type": "authored-by",
+      "source_ref": "malware--lumma-0001-4eee-aaaa-lummac2v2025",
+      "target_ref": "threat-actor--shamel-0001-lumma-dev-2022"
+    },
+
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--malware-ioc-ua",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--net-001-teslabrowser-ua",
+      "target_ref": "malware--lumma-0001-4eee-aaaa-lummac2v2025"
+    },
+
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--malware-hash-001",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--hash-001-crowdstrike-2024",
+      "target_ref": "malware--lumma-0001-4eee-aaaa-lummac2v2025"
+    },
+
+    {
+      "type": "relationship",
+      "spec_version": "2.1",
+      "id": "relationship--malware-hash-002",
+      "created": "2025-03-01T00:00:00.000Z",
+      "modified": "2025-03-28T00:00:00.000Z",
+      "relationship_type": "indicates",
+      "source_ref": "indicator--hash-002-netskope-2025",
+      "target_ref": "malware--lumma-0001-4eee-aaaa-lummac2v2025"
+    }
+  ]
+}
